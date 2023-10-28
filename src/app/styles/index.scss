@@ -1,0 +1,9 @@
+@import "reset.scss";
+@import "variables/global.scss";
+
+.app {
+    font: var(--font-l);
+    color: var(--primary-color);
+    background: var(--bg-color);
+    min-height: 100vh;
+}
