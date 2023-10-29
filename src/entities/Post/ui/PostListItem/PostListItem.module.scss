@@ -1,9 +1,10 @@
 .PostListItem {
-    width: 100%;
+    width: 60%;
+    height: 180px;
     padding: 20px;
-    margin-bottom: 15px;
+    margin: 20px auto;
     background: var(--card-bg);
-    border: 1px solid var(--secondary-color);
+    border: 2px solid var(--secondary-color);
 }
 
 .button {

@@ -20,7 +20,7 @@ export const PostDetails = memo(({ className, id }: PostDetailsProps) => {
 
     const onPostsPage = useCallback(() => {
         navigate(getRoutePosts())
-    }, [navigate, post])
+    }, [navigate])
 
     if (isLoading) {
         return (

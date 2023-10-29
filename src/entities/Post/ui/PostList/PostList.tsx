@@ -1,10 +1,10 @@
 import { memo, useMemo } from "react";
-import { postAPI } from "../../api/postApi";
 import cls from './PostList.module.scss';
 import { classNames } from "shared/lib/classNames/classNames";
 import { PostListItem } from "../PostListItem/PostListItem";
 import { Skeleton } from "shared/ui/Skeleton";
 import { ErrorPage } from "widgets/ErrorPage";
+import useInfiniteScrollPosts from "../../lib/hooks/useInfiniteScrollPosts/useInfiniteScrollPosts";
 
 const NUMBER_OF_SKELETONS = 7;
 
@@ -13,9 +13,14 @@ interface PostListProps {
 }
 
 export const PostList = memo(({ className }: PostListProps) => {
-    const { data: posts, error, isLoading } = postAPI.useFetchAllPostsQuery( 1, {
-        pollingInterval: 10000,
-    })
+
+    const {
+        combinedData: allPosts,
+        itemRef,
+        error,
+        isLoading: newPostsIsLoading,
+    } = useInfiniteScrollPosts()
+
 
     const skeletons = useMemo(() => {
         return new Array(NUMBER_OF_SKELETONS).fill(NUMBER_OF_SKELETONS).map((el, index) => (
@@ -24,7 +29,7 @@ export const PostList = memo(({ className }: PostListProps) => {
     }, [])
 
 
-    if (isLoading) {
+    if (newPostsIsLoading) {
         return (
             <div
                 className={classNames(cls.PostList, {}, [className])}
@@ -40,9 +45,19 @@ export const PostList = memo(({ className }: PostListProps) => {
 
     return (
         <div className={classNames(cls.PostList, {}, [className])}>
-            {
-                posts?.map(post => <PostListItem key={post.id} post={post} />)
-            }
+            <ul>
+                {
+                    allPosts?.map((post, index) => (
+                        <li
+                            key={post?.id}
+                            ref={index === allPosts.length - 1 ? itemRef : null}
+                        >
+                            <PostListItem  post={post} />
+                        </li>
+                    ))
+                }
+            </ul>
+
         </div>
     );
 });
