@@ -1,26 +1,46 @@
-import { memo, useMemo } from "react";
-import cls from './PostList.module.scss';
-import { classNames } from "shared/lib/classNames/classNames";
+import {
+    memo,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from "react";
+
+import { postAPI } from "../../api/postApi";
+import { IPost } from "../../model/types/post";
 import { PostListItem } from "../PostListItem/PostListItem";
+import { classNames } from "shared/lib/classNames/classNames";
 import { Skeleton } from "shared/ui/Skeleton";
 import { ErrorPage } from "widgets/ErrorPage";
-import useInfiniteScrollPosts from "../../lib/hooks/useInfiniteScrollPosts/useInfiniteScrollPosts";
-
-const NUMBER_OF_SKELETONS = 7;
+import { useDynamicSizeList } from "shared/lib/hooks/useDynamicSizeList/useDynamicSizeList";
+import cls from './PostList.module.scss';
 
 interface PostListProps {
     className?: string;
 }
 
+const NUMBER_OF_SKELETONS = 7;
+
 export const PostList = memo(({ className }: PostListProps) => {
+    const [postItems, setPostItems] = useState<IPost[]>([]);
+    const scrollElementRef = useRef<HTMLDivElement>(null);
 
-    const {
-        combinedData: allPosts,
-        itemRef,
-        error,
-        isLoading: newPostsIsLoading,
-    } = useInfiniteScrollPosts()
+    const { isScrolling, virtualItems, totalHeight, measureElement } = useDynamicSizeList({
+        estimateItemHeight: useCallback(() => 40, []),
+        itemsCount: postItems.length,
+        getScrollElement: useCallback(() => scrollElementRef.current, [scrollElementRef.current]),
+        getItemKey: useCallback((index) => postItems[index]!.id, [postItems]),
+    });
 
+    const { data: posts, error, isLoading } = postAPI.useFetchAllPostsQuery(null, {
+        // pollingInterval: 10000,
+    });
+
+    useEffect(() => {
+        if (!posts) return
+        setPostItems(posts)
+    }, [posts])
 
     const skeletons = useMemo(() => {
         return new Array(NUMBER_OF_SKELETONS).fill(NUMBER_OF_SKELETONS).map((el, index) => (
@@ -28,8 +48,7 @@ export const PostList = memo(({ className }: PostListProps) => {
         ))
     }, [])
 
-
-    if (newPostsIsLoading) {
+    if (isLoading) {
         return (
             <div
                 className={classNames(cls.PostList, {}, [className])}
@@ -44,20 +63,36 @@ export const PostList = memo(({ className }: PostListProps) => {
     }
 
     return (
-        <div className={classNames(cls.PostList, {}, [className])}>
-            <ul>
+        <div
+            ref={scrollElementRef}
+            className={classNames(cls.PostList, {}, [className])}
+        >
+            <div
+                style={{ height: totalHeight }}
+            >
                 {
-                    allPosts?.map((post, index) => (
-                        <li
-                            key={post?.id}
-                            ref={index === allPosts.length - 1 ? itemRef : null}
-                        >
-                            <PostListItem  post={post} />
-                        </li>
-                    ))
-                }
-            </ul>
+                    postItems!! && virtualItems?.map((virtualItem) => {
+                        const item = postItems[virtualItem.index]!;
 
+                        return (
+                            <div
+                                key={item.id}
+                                data-index={virtualItem.index}
+                                ref={measureElement}
+                                style={{
+                                    position: "absolute",
+                                    transform: `translateY(${virtualItem.offsetTop}px)`,
+                                    marginLeft: '25%',
+                                    width: '50%',
+                                }}
+
+                            >
+                                <PostListItem isScrolling={isScrolling} post={item} />
+                            </div>
+                        )
+                    })
+                }
+            </div>
         </div>
     );
 });

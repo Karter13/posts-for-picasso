@@ -1,7 +1,8 @@
-import cls from './ErrorPage.module.scss';
-import { classNames } from "shared/lib/classNames/classNames";
 import { Button } from 'shared/ui/Button';
 import { Text, TextSize } from "shared/ui/Text";
+import { classNames } from "shared/lib/classNames/classNames";
+
+import cls from './ErrorPage.module.scss';
 
 interface ErrorPageProps {
     className?: string;

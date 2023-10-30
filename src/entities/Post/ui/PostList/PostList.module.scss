@@ -1,7 +1,12 @@
 .PostList {
-    padding: 40px;
+    padding-top: 40px;
+    height: 1200px;
+    overflow: auto;
+    border: 1px solid lightgrey;
+    position: relative;
+}
+.skeleton {
+    margin: 20px auto;
 }
 
-.skeleton {
-    margin-bottom: 20px;
-}
+

@@ -1,13 +1,14 @@
-import cls from './PostDetails.module.scss';
-import { classNames } from "shared/lib/classNames/classNames";
+import { memo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { postAPI } from "../../api/postApi";
+import { classNames } from "shared/lib/classNames/classNames";
 import { Text, TextSize } from "shared/ui/Text";
 import { Button, ButtonTheme } from "shared/ui/Button";
-import { useNavigate } from "react-router-dom";
-import { memo, useCallback } from "react";
 import { getRoutePosts } from "shared/const/router";
 import { Skeleton } from "shared/ui/Skeleton";
 import { ErrorPage } from "widgets/ErrorPage";
+import cls from './PostDetails.module.scss';
 
 interface PostDetailsProps {
     className?: string;

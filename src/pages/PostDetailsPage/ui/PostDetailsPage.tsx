@@ -1,8 +1,9 @@
-import cls from './PostDetailsPage.module.scss';
+import { memo } from "react";
+import { useParams } from "react-router-dom";
+
 import { classNames } from "shared/lib/classNames/classNames";
 import { PostDetails } from "entities/Post";
-import { useParams } from "react-router-dom";
-import { memo } from "react";
+import cls from './PostDetailsPage.module.scss';
 
 interface PostDetailsPageProps {
     className?: string;
