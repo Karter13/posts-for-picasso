@@ -47,7 +47,7 @@ export const PostList = memo(({ className }: PostListProps) => {
 
     const skeletons = useMemo(() => {
         return new Array(NUMBER_OF_SKELETONS).fill(NUMBER_OF_SKELETONS).map((el, index) => (
-            <Skeleton key={index} className={cls.skeleton} width="100%" border="8px" height="140px" />
+            <Skeleton key={index} className={cls.skeleton} width="60%" border="8px" height="160px" />
         ));
     }, []);
 
@@ -85,8 +85,8 @@ export const PostList = memo(({ className }: PostListProps) => {
                                 style={{
                                     position: 'absolute',
                                     transform: `translateY(${virtualItem.offsetTop}px)`,
-                                    marginLeft: '30%',
-                                    width: '40%',
+                                    marginLeft: '20%',
+                                    width: '60%',
                                 }}
 
                             >
