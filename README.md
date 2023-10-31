@@ -23,7 +23,7 @@ npm run build - создание билда.
 
 Используется React Router DOM 6.
 
-Конфигурация роутов - [router](src\app\providers\router)
+Конфигурация роутов - [router](src/app/providers/router)
 
 ---
 ### Работа с данными
@@ -32,5 +32,10 @@ npm run build - создание билда.
 Взаимодействие с данными осуществляется с помощью [Redux toolkit](https://redux-toolkit.js.org/).
 
 Запросы на сервер отправляются с помощью [RTK query](https://redux-toolkit.js.org/rtk-query/overview).
+
+---
+### Деплой проекта
+
+Проект задеплоен на - [Netlify](https://fascinating-zabaione-18847c.netlify.app/) 
 
 ---
