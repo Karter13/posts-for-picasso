@@ -263,6 +263,7 @@ export function useDynamicSizeList(props: UseDynamicSizeListProps) {
 
             setMeasurementCache((cache) => ({ ...cache, [key]: height }));
         },
+        // eslint-disable-next-line
         []
     );
 
@@ -273,12 +274,16 @@ export function useDynamicSizeList(props: UseDynamicSizeListProps) {
             });
         });
         return ro;
-    }, [latestData]);
+    },
+        // eslint-disable-next-line
+        [latestData]
+    );
 
     const measureElement = useCallback(
         (element: Element|null) => {
             measureElementInner(element, itemsResizeObserver);
         },
+        // eslint-disable-next-line
         [itemsResizeObserver]
     );
 

@@ -29,7 +29,10 @@ export const PostList = memo(({ className }: PostListProps) => {
     const { isScrolling, virtualItems, totalHeight, measureElement } = useDynamicSizeList({
         estimateItemHeight: useCallback(() => 16, []),
         itemsCount: postItems.length,
-        getScrollElement: useCallback(() => scrollElementRef.current, [scrollElementRef.current]),
+        getScrollElement: useCallback(() => scrollElementRef.current,
+            // eslint-disable-next-line
+            [scrollElementRef.current]
+        ),
         getItemKey: useCallback((index) => postItems[index]!.id, [postItems]),
     });
 
