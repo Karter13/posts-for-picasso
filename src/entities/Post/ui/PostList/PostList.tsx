@@ -5,15 +5,15 @@ import {
     useMemo,
     useRef,
     useState
-} from "react";
+} from 'react';
 
-import { postAPI } from "../../api/postApi";
-import { IPost } from "../../model/types/post";
-import { PostListItem } from "../PostListItem/PostListItem";
-import { classNames } from "shared/lib/classNames/classNames";
-import { Skeleton } from "shared/ui/Skeleton";
-import { ErrorPage } from "widgets/ErrorPage";
-import { useDynamicSizeList } from "shared/lib/hooks/useDynamicSizeList/useDynamicSizeList";
+import { postAPI } from '../../api/postApi';
+import { IPost } from '../../model/types/post';
+import { PostListItem } from '../PostListItem/PostListItem';
+import { classNames } from 'shared/lib/classNames/classNames';
+import { Skeleton } from 'shared/ui/Skeleton';
+import { ErrorPage } from 'widgets/ErrorPage';
+import { useDynamicSizeList } from 'shared/lib/hooks/useDynamicSizeList/useDynamicSizeList';
 import cls from './PostList.module.scss';
 
 interface PostListProps {
@@ -27,7 +27,7 @@ export const PostList = memo(({ className }: PostListProps) => {
     const scrollElementRef = useRef<HTMLDivElement>(null);
 
     const { isScrolling, virtualItems, totalHeight, measureElement } = useDynamicSizeList({
-        estimateItemHeight: useCallback(() => 40, []),
+        estimateItemHeight: useCallback(() => 16, []),
         itemsCount: postItems.length,
         getScrollElement: useCallback(() => scrollElementRef.current, [scrollElementRef.current]),
         getItemKey: useCallback((index) => postItems[index]!.id, [postItems]),
@@ -38,15 +38,15 @@ export const PostList = memo(({ className }: PostListProps) => {
     });
 
     useEffect(() => {
-        if (!posts) return
-        setPostItems(posts)
-    }, [posts])
+        if (!posts) return;
+        setPostItems(posts);
+    }, [posts]);
 
     const skeletons = useMemo(() => {
         return new Array(NUMBER_OF_SKELETONS).fill(NUMBER_OF_SKELETONS).map((el, index) => (
             <Skeleton key={index} className={cls.skeleton} width="100%" border="8px" height="140px" />
-        ))
-    }, [])
+        ));
+    }, []);
 
     if (isLoading) {
         return (
@@ -59,7 +59,7 @@ export const PostList = memo(({ className }: PostListProps) => {
     }
 
     if (error) {
-        return (<ErrorPage />)
+        return (<ErrorPage />);
     }
 
     return (
@@ -71,7 +71,7 @@ export const PostList = memo(({ className }: PostListProps) => {
                 style={{ height: totalHeight }}
             >
                 {
-                    postItems!! && virtualItems?.map((virtualItem) => {
+                    virtualItems?.map((virtualItem) => {
                         const item = postItems[virtualItem.index]!;
 
                         return (
@@ -80,16 +80,16 @@ export const PostList = memo(({ className }: PostListProps) => {
                                 data-index={virtualItem.index}
                                 ref={measureElement}
                                 style={{
-                                    position: "absolute",
+                                    position: 'absolute',
                                     transform: `translateY(${virtualItem.offsetTop}px)`,
-                                    marginLeft: '25%',
-                                    width: '50%',
+                                    marginLeft: '30%',
+                                    width: '40%',
                                 }}
 
                             >
                                 <PostListItem isScrolling={isScrolling} post={item} />
                             </div>
-                        )
+                        );
                     })
                 }
             </div>

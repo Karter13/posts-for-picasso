@@ -1,3 +1,4 @@
 import ErrorBoundary from './ui/ErrorBoundary';
-export { ErrorBoundary }
+
+export { ErrorBoundary };
 

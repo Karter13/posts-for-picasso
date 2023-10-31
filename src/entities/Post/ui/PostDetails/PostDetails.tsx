@@ -1,13 +1,13 @@
-import { memo, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { memo, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { postAPI } from "../../api/postApi";
-import { classNames } from "shared/lib/classNames/classNames";
-import { Text, TextSize } from "shared/ui/Text";
-import { Button, ButtonTheme } from "shared/ui/Button";
-import { getRoutePosts } from "shared/const/router";
-import { Skeleton } from "shared/ui/Skeleton";
-import { ErrorPage } from "widgets/ErrorPage";
+import { postAPI } from '../../api/postApi';
+import { classNames } from 'shared/lib/classNames/classNames';
+import { Text, TextSize } from 'shared/ui/Text';
+import { Button, ButtonTheme } from 'shared/ui/Button';
+import { getRoutePosts } from 'shared/const/router';
+import { Skeleton } from 'shared/ui/Skeleton';
+import { ErrorPage } from 'widgets/ErrorPage';
 import cls from './PostDetails.module.scss';
 
 interface PostDetailsProps {
@@ -17,11 +17,11 @@ interface PostDetailsProps {
 
 export const PostDetails = memo(({ className, id }: PostDetailsProps) => {
     const navigate = useNavigate();
-    const { data: post, isLoading, error } = postAPI.useFetchPostQuery(Number(id))
+    const { data: post, isLoading, error } = postAPI.useFetchPostQuery(Number(id));
 
     const onPostsPage = useCallback(() => {
-        navigate(getRoutePosts())
-    }, [navigate])
+        navigate(getRoutePosts());
+    }, [navigate]);
 
     if (isLoading) {
         return (
@@ -33,7 +33,7 @@ export const PostDetails = memo(({ className, id }: PostDetailsProps) => {
         );
     }
     if (error) {
-        return (<ErrorPage />)
+        return (<ErrorPage />);
     }
 
     return (

@@ -1,4 +1,4 @@
-import { useInsertionEffect, useRef } from "react";
+import { useInsertionEffect, useRef } from 'react';
 
 export function useLatest<T>(value: T) {
     const valueRef = useRef(value);

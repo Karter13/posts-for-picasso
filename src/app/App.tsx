@@ -1,9 +1,9 @@
-import { AppRouter } from "./providers/router";
+import { AppRouter } from './providers/router';
 
 function App() {
 
     return (
-        <div className='app'>
+        <div className="app">
             <AppRouter />
         </div>
     );

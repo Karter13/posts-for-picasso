@@ -1,4 +1,4 @@
-import { Text, TextSize } from "shared/ui/Text";
+import { Text, TextSize } from 'shared/ui/Text';
 import cls from './NotFoundPage.module.scss';
 
 export const NotFoundPage = () => {

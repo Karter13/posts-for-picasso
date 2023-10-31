@@ -1,7 +1,7 @@
-import { AppRoutes, getRouteMain, getRoutePostDetails, getRoutePosts } from "shared/const/router";
-import { PostsPage } from "pages/PostsPage";
-import { NotFoundPage } from "pages/NotFoundPage";
-import { PostDetailsPage } from "pages/PostDetailsPage";
+import { AppRoutes, getRouteMain, getRoutePostDetails, getRoutePosts } from 'shared/const/router';
+import { PostsPage } from 'pages/PostsPage';
+import { NotFoundPage } from 'pages/NotFoundPage';
+import { PostDetailsPage } from 'pages/PostDetailsPage';
 
 export const routeConfig = {
     [AppRoutes.MAIN]: {
@@ -20,4 +20,4 @@ export const routeConfig = {
         path: '*',
         element: <NotFoundPage />,
     }
-}
+};

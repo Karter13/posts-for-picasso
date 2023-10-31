@@ -7,11 +7,11 @@ export interface UseInfiniteScrollOptions {
 }
 
 export function useInfiniteScroll({
-    callback,
-    wrapperRef,
-    triggerRef,
-}: UseInfiniteScrollOptions) {
-    const observer = useRef<IntersectionObserver | null>(null);
+                                      callback,
+                                      wrapperRef,
+                                      triggerRef,
+                                  }: UseInfiniteScrollOptions) {
+    const observer = useRef<IntersectionObserver|null>(null);
 
     useEffect(() => {
         const wrapperElement = wrapperRef.current;

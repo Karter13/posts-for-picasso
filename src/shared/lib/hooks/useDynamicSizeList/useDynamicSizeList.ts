@@ -4,9 +4,9 @@ import {
     useLayoutEffect,
     useMemo,
     useState
-} from "react";
+} from 'react';
 
-import { useLatest } from "../useLatest/useLatest";
+import { useLatest } from '../useLatest/useLatest';
 
 type Key = string|number;
 
@@ -97,9 +97,9 @@ export function useDynamicSizeList(props: UseDynamicSizeListProps) {
 
         handleScroll();
 
-        scrollElement.addEventListener("scroll", handleScroll);
+        scrollElement.addEventListener('scroll', handleScroll);
 
-        return () => scrollElement.removeEventListener("scroll", handleScroll);
+        return () => scrollElement.removeEventListener('scroll', handleScroll);
     }, [getScrollElement]);
 
     useEffect(() => {
@@ -113,7 +113,7 @@ export function useDynamicSizeList(props: UseDynamicSizeListProps) {
         const handleScroll = () => {
             setIsScrolling(true);
 
-            if (typeof timeoutId === "number") {
+            if (typeof timeoutId === 'number') {
                 clearTimeout(timeoutId);
             }
 
@@ -123,79 +123,80 @@ export function useDynamicSizeList(props: UseDynamicSizeListProps) {
             }, scrollingDelay);
         };
 
-        scrollElement.addEventListener("scroll", handleScroll);
+        scrollElement.addEventListener('scroll', handleScroll);
 
         return () => {
-            if (typeof timeoutId === "number") {
+            if (typeof timeoutId === 'number') {
                 clearTimeout(timeoutId);
             }
-            scrollElement.removeEventListener("scroll", handleScroll);
+            scrollElement.removeEventListener('scroll', handleScroll);
         };
     }, [getScrollElement, scrollingDelay]);
 
-    const { virtualItems, startIndex, endIndex, totalHeight, allItems } = useMemo(() => {
-        const getItemHeight = (index: number) => {
-            if (itemHeight) {
-                return itemHeight(index);
-            }
+    const { virtualItems, startIndex, endIndex, totalHeight, allItems } =
+        useMemo(() => {
+            const getItemHeight = (index: number) => {
+                if (itemHeight) {
+                    return itemHeight(index);
+                }
 
-            const key = getItemKey(index);
-            if (typeof measurementCache[key] === "number") {
-                return measurementCache[key]!;
-            }
+                const key = getItemKey(index);
+                if (typeof measurementCache[key] === 'number') {
+                    return measurementCache[key]!;
+                }
 
-            return estimateItemHeight!(index);
-        };
-
-        const rangeStart = scrollTop;
-        const rangeEnd = scrollTop + listHeight;
-
-
-        let totalHeight = 0;
-        let startIndex = -1;
-        let endIndex = -1;
-        const allItems: DynamicSizeListItem[] = Array(itemsCount);
-
-        for (let index = 0; index < itemsCount; index++) {
-            const key = getItemKey(index);
-            const row = {
-                key,
-                index: index,
-                height: getItemHeight(index),
-                offsetTop: totalHeight,
+                return estimateItemHeight!(index);
             };
 
-            totalHeight += row.height;
-            allItems[index] = row;
+            const rangeStart = scrollTop;
+            const rangeEnd = scrollTop + listHeight;
 
-            if (startIndex === -1 && row.offsetTop + row.height > rangeStart) {
-                startIndex = Math.max(0, index - overScan);
+
+            let totalHeight = 0;
+            let startIndex = -1;
+            let endIndex = -1;
+            const allItems: DynamicSizeListItem[] = Array(itemsCount);
+
+            for (let index = 0; index < itemsCount; index++) {
+                const key = getItemKey(index);
+                const row = {
+                    key,
+                    index,
+                    height: getItemHeight(index),
+                    offsetTop: totalHeight,
+                };
+
+                totalHeight += row.height;
+                allItems[index] = row;
+
+                if (startIndex === -1 && row.offsetTop + row.height > rangeStart) {
+                    startIndex = Math.max(0, index - overScan);
+                }
+
+                if (endIndex === -1 && row.offsetTop + row.height >= rangeEnd) {
+                    endIndex = Math.min(itemsCount - 1, index + overScan);
+                }
             }
 
-            if (endIndex === -1 && row.offsetTop + row.height >= rangeEnd) {
-                endIndex = Math.min(itemsCount - 1, index + overScan);
-            }
-        }
+            const virtualItems = allItems.slice(startIndex, endIndex + 1);
 
-        const virtualItems = allItems.slice(startIndex, endIndex + 1);
-
-        return {
-            virtualItems,
-            startIndex,
-            endIndex,
-            allItems,
-            totalHeight,
-        }
-    }, [
-        scrollTop,
-        overScan,
-        listHeight,
-        itemHeight,
-        getItemKey,
-        estimateItemHeight,
-        measurementCache,
-        itemsCount,
-    ]);
+            return {
+                virtualItems,
+                startIndex,
+                endIndex,
+                allItems,
+                totalHeight,
+            };
+        }, [
+            scrollTop,
+            overScan,
+            listHeight,
+            itemHeight,
+            getItemKey,
+            estimateItemHeight,
+            measurementCache,
+            itemsCount,
+        ]);
 
     const latestData = useLatest({
         measurementCache,
@@ -220,15 +221,16 @@ export function useDynamicSizeList(props: UseDynamicSizeListProps) {
                 return;
             }
 
-            const indexAttribute = element.getAttribute("data-index") || "";
+            const indexAttribute = element.getAttribute('data-index') || '';
             const index = parseInt(indexAttribute, 10);
 
             if (Number.isNaN(index)) {
                 console.error(
-                    "dynamic elements must have a valid `data-index` attribute"
+                    'dynamic elements must have a valid `data-index` attribute'
                 );
                 return;
             }
+
             const { measurementCache, getItemKey, allItems, scrollTop } =
                 latestData.current;
 
@@ -237,7 +239,7 @@ export function useDynamicSizeList(props: UseDynamicSizeListProps) {
 
             resizeObserver.observe(element);
 
-            if (!isResize && typeof measurementCache[key] === "number") {
+            if (!isResize && typeof measurementCache[key] === 'number') {
                 return;
             }
 

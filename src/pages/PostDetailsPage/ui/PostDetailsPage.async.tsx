@@ -1,3 +1,3 @@
-import { lazy } from "react";
+import { lazy } from 'react';
 
-export const PostDetailsPageAsync = lazy(() => import('./PostDetailsPage'))
+export const PostDetailsPageAsync = lazy(() => import('./PostDetailsPage'));
